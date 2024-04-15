@@ -33,3 +33,7 @@ export const getPatientList = async (trial, center) => {
 export const getPatientInfo = async (patient) => {
   return fatchData(`/api/getPatientInfo?patientID=${patient}`, 'GET');
 }
+
+export const updatePatientInfo = async (patient, data) => {
+  return fatchData(`/api/updatePatientInfo?patientID=${patient}`, 'PATCH', data);
+}

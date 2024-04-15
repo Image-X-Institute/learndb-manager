@@ -1,7 +1,9 @@
 import React from "react";
-import { Select, Form, Input, Button } from 'antd';
-import { getTrialList, getCenterList, getPatientList, getPatientInfo } from "../utils/apiRequest";
+import { Select, Form, Input, Button, message } from 'antd';
+import { getTrialList, getCenterList, getPatientList, getPatientInfo, updatePatientInfo } from "../utils/apiRequest";
 const PatientManagement = () => {
+
+  const [form] = Form.useForm();
 
   const [trialList, setTrialList] = React.useState([])
   const [centerList, setCenterList] = React.useState([])
@@ -50,8 +52,8 @@ const PatientManagement = () => {
       getPatientInfo(patient).then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
-            setPatientData(data)
             console.log(data);
+            setPatientData(data)
           })
         }
       })
@@ -63,15 +65,42 @@ const PatientManagement = () => {
     setTrial(value)
     setCenter('')
     setPatient('')
+    setPatientData({})
+    form.resetFields()
   };
 
   const handleCenterChange = (value) => {
     setCenter(value)
     setPatient('')
+    setPatientData({})
+    form.resetFields()
   };
 
   const handlePatientChange = (value) => {
     setPatient(value)
+    form.resetFields()
+    setPatientData({})
+  };
+
+  const onFinish = (values) => {
+    const changedData = {}
+    Object.keys(values).forEach((key) => {
+      if (values[key]) {
+        changedData[key] = values[key]
+      }
+    })
+    if (Object.keys(changedData).length > 0) {
+      updatePatientInfo(patient, changedData).then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            message.info('Patient data updated successfully')
+          })
+        }
+        else {
+          message.error('Failed to update patient data')
+        }
+      })
+    }
   };
 
   if (!isLoaded) {
@@ -79,7 +108,7 @@ const PatientManagement = () => {
   }
 
   return (
-    <div>
+    <div className="h-full">
       <h1>Patient Management</h1>
       <div className="flex justify-center">
         <div>
@@ -126,7 +155,7 @@ const PatientManagement = () => {
         </div>
       </div>
      
-      <div className="w-full flex justify-center align-center h-full">
+      <div className="w-full flex justify-center align-center">
         <Form
           labelCol={{
             span: 8,
@@ -140,6 +169,8 @@ const PatientManagement = () => {
             overflow: 'scroll',
             marginTop: 20,
           }}
+          onFinish={onFinish}
+          form={form}
         >
           {
             Object.keys(patientData).map((key) => {
@@ -147,12 +178,18 @@ const PatientManagement = () => {
                 <Form.Item
                   key={key}
                   label={key}
+                  name={key}
                 >
-                  <Input value={patientData[key]} />
+                  <Input defaultValue={patientData[key]} />
                 </Form.Item>
               )
             })
           }
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
       </div>
     </div>
