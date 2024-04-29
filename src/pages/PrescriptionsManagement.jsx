@@ -1,7 +1,9 @@
 import React from "react";
-import { Select, Form, Input, Button, message } from 'antd';
+import { Select, Form, Input, Button, message, Tooltip, Spin } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { getTrialList, getCenterList, getPatientList, getPatientInfo, updatePatientInfo } from "../utils/apiRequest";
-const PatientManagement = () => {
+
+const PrescriptionsManagement = () => {
 
   const [form] = Form.useForm();
 
@@ -104,12 +106,21 @@ const PatientManagement = () => {
   };
 
   if (!isLoaded) {
-    return <div>Loading...</div>
+    return <Spin size='large' className='m-auto' tip='Loading...'/>
   }
 
   return (
     <div className="h-full">
-      <h1>Patient Management</h1>
+      <div className="flex justify-center items-center">
+        <h1 className='text-center text-2xl font-bold my-4'>Prescriptions Management</h1>
+        <Tooltip 
+          title="In this section, you could manage patient's prescription level data. 
+          Select the trial, center and patient ID to view the patient's prescription data.
+          To update the patient's prescription data, change the value and click submit."
+        >
+          <QuestionCircleOutlined className='ml-2 text-lg' />
+        </Tooltip>
+      </div>
       <div className="flex justify-center">
         <div>
           <div>
@@ -165,8 +176,6 @@ const PatientManagement = () => {
           }}
           style={{
             width: 600,
-            maxHeight: 600,
-            overflow: 'scroll',
             marginTop: 20,
           }}
           onFinish={onFinish}
@@ -185,7 +194,7 @@ const PatientManagement = () => {
               )
             })
           }
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
@@ -196,4 +205,4 @@ const PatientManagement = () => {
   );
 }
 
-export default PatientManagement;
+export default PrescriptionsManagement;

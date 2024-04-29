@@ -1,27 +1,8 @@
-import React from "react";
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { dashboardNavItems } from '../config/dashboardNavigate';
+import { Layout, Menu, Button } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom'
-
-const { Content, Footer, Sider } = Layout;
-const items = [
-  {
-    key: '/dashboard',
-    icon: <UserOutlined />,
-    label: 'Home',
-  },
-  {
-    key: '/dashboard/patitents',
-    icon: <VideoCameraOutlined />,
-    label: 'Patients',
-  },
-  {
-    key: '/dashboard/users',
-    icon: <UploadOutlined />,
-    label: 'Users',
-  },
-]
-
+import LoginPage from './LoginPage';
+const { Content, Footer, Sider, Header } = Layout;
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,25 +10,57 @@ const Home = () => {
     navigate(e.key);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  }
+
+  if (!localStorage.getItem('token')) {
+    return <LoginPage />
+  }
+
   return (
     <Layout>
       <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
+        width={230}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
         }}
       >
-        <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} onClick={handleMenuChange} />
+        <Menu 
+          mode="inline" 
+          items={dashboardNavItems} 
+          onClick={handleMenuChange} 
+          style={{ height: '100%'}}
+        />
       </Sider>
-      <Layout>
+      <Layout style={{ marginLeft: 230 }}>
+        <Header style={{
+            height: 54,
+            paddingInline: 48,
+            lineHeight: '64px',
+            background: '#fff',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+            display: 'flex',
+            justifyContent: 'end',
+            alignItems: 'center',
+          }}
+        >
+            <div style={{display: 'flex',  justifyContent: 'end', alignItems: 'center'}}>
+              <div>Welcome,</div>
+              <Button type='link' style={{paddingLeft:6}}>{localStorage.getItem('user')}</Button>
+            </div>
+            <Button onClick={handleLogout}>Logout</Button>
+        </Header>
         <Content
           style={{
-            margin: '24px 16px 0',
+            margin: '24px 32px 0',
+            overflow: 'auto',
           }}
         >
           <Outlet />
