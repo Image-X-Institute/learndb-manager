@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Tooltip, Form, Input } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { registerUser } from '../utils/apiRequest';
 import { useNavigate } from 'react-router-dom';
 
@@ -107,6 +108,10 @@ const RegisterForm = () => {
       <Form.Item
         label="Invitation Code"
         name="invitationCode"
+        tooltip='The invitation code is 
+                  required to register in order to protect 
+                  the system from unauthorized access. 
+                  Currently, this feature is disabled. Please enter any code to register.'
         rules={[
           {
             required: true,
@@ -114,7 +119,7 @@ const RegisterForm = () => {
           }
         ]}
       >
-        <Input />
+        <Input placeholder='123' />
       </Form.Item>
   
       <Form.Item

@@ -13,11 +13,11 @@ const LoginPage = () => {
               src="/biglogo.jpg"
               alt="logo"
             />
-            <h4 className="m-auto mt-1 pb-1 text-xl font-semibold">
+            <h4 className="m-auto mt-4 pb-1 text-xl font-semibold">
               Sign in to your account
             </h4>
           </div>
-          <Card className='p-4 shadow-md mt-8 w-full'>
+          <Card className='p-4 shadow-md mt-4 w-full'>
             <LoginForm />
             <div className='text-center'>
               Do not have an account? <a href='/register' className='text-blue-500'>Register</a>

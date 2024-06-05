@@ -20,11 +20,11 @@ const RegisterPage = () => {
               src="/biglogo.jpg"
               alt="logo"
             />
-            <h4 className="m-auto mt-1 pb-1 text-xl font-semibold">
+            <h4 className="m-auto mt-4 pb-1 text-xl font-semibold">
               Register for an account
             </h4>
           </div>
-          <Card className='p-4 shadow-md mt-8 w-full'>
+          <Card className='p-4 shadow-md mt-4 w-full'>
             <RegisterForm />
           </Card>
         </div>

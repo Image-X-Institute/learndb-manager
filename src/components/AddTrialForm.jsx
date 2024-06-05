@@ -157,7 +157,7 @@ const AddTrialForm = () => {
           </div>
 
           <div style={{display: 'flex', marginTop: '10px'}}>
-          <Button icon={<DownloadOutlined />} className='mr-3' onClick={handleTrialStructureDownload}>Download</Button>
+          <Button icon={<DownloadOutlined />} className='mr-3' onClick={handleTrialStructureDownload} disabled={selectedTrial ? false : true}>Download</Button>
           <div className='m-auto'>OR</div>
           <Button type='link' onClick={handleTrialTemplateDownload}>Download Blank Template</Button>
           </div>
