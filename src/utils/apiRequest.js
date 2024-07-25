@@ -39,7 +39,7 @@ export const updatePatientInfo = async (patient, data) => {
 }
 
 export const getFractionInfo = async (patient, trial) => {
-  return fatchData(`/api/fraction/getFractionDetialByPatientId?patientId=${patient}&trialName=${trial}`, 'GET');
+  return fatchData(`/api/fraction/getFractionDetailByPatientId?patientId=${patient}&trialName=${trial}`, 'GET');
 }
 
 export const updateFractionInfo = async (data) => {
