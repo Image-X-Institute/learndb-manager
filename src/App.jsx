@@ -14,6 +14,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import CentreManagement from './pages/CentreManagement'
 import TrialManagement from './pages/TrialManagement'
+import ChangePasswordPage from './pages/ChangePasswordPage'
 
 const imageXColor = ['#f19816', '#f4B05B', '#f19816']
 
@@ -60,6 +61,7 @@ function App() {
             <Route exact path='/dashboard/patitents/qacheck' element={<QaCheck />} />
             <Route exact path='/dashboard/users/addnew' element={<AddNewUser />} />
             <Route exact path='/dashboard/users/management' element={<UserManagement />} />
+            <Route exact path='/dashboard/users/changePassword' element={<ChangePasswordPage />} />
           </Route>
 
         </Routes>

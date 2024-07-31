@@ -14,6 +14,7 @@ const LoginForm = () => {
           localStorage.setItem('token', data.token)
           localStorage.setItem('user', data.username)
           localStorage.setItem('access_level', data.access_level)
+          localStorage.setItem('email', data.email)
           navigate('/dashboard')
         })
       } else {

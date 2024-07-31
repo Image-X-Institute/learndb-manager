@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Tooltip, Form, Input } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
 import { registerUser } from '../utils/apiRequest';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +14,7 @@ const RegisterForm = () => {
           localStorage.setItem('token', data.token)
           localStorage.setItem('user', data.username)
           localStorage.setItem('access_level', data.access_level)
+          localStorage.setItem('email', data.email)
           navigate('/dashboard')
         })
       } else {

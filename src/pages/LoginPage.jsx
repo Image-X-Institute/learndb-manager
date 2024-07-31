@@ -1,6 +1,12 @@
 import LoginForm from '../components/LoginForm';
+import ResetPasswordModal from '../components/ResetPasswordModal';
 import { Card } from 'antd';
+
 const LoginPage = () => {
+
+
+
+
   return (
     <div className="g-0 lg:flex lg:flex-wrap h-screen">
       {/* <!-- Left column container--> */}
@@ -22,6 +28,7 @@ const LoginPage = () => {
             <div className='text-center'>
               Do not have an account? <a href='/register' className='text-blue-500'>Register</a>
             </div>
+            <ResetPasswordModal />
           </Card>
         </div>
       </div>

@@ -145,7 +145,12 @@ export const dashboardNavItems = [
         key: '/dashboard/users/management',
         label: 'User Management',
         icon: <ContainerOutlined />
-      }
+      },
+      {
+        key: '/dashboard/users/changePassword',
+        label: 'Change Password',
+        icon: <ContainerOutlined />
+      },
     ],
   }
 ]

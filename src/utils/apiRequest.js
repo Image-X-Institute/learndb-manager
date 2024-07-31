@@ -101,3 +101,7 @@ export const addTrial = async (data) => {
 export const getTrialStructure = async (trial) => {
   return fatchData(`/api/getTrialStructure?trialName=${trial}`, 'GET');
 }
+
+export const changePassword = async (data) => {
+  return fatchData('/api/user/changePassword', 'POST', data);
+}
