@@ -72,6 +72,16 @@ const createLabels = (label) => {
           </Tooltip>
         </div>
       )
+
+    case 'File System':
+      return (
+        <div style={{ display: 'flex'}}>
+          <p className='mr-1'>{label}</p>
+          <Tooltip title="In this section, you could manage the file system of the database">
+            <QuestionCircleOutlined />
+          </Tooltip>
+        </div>
+      )
     default:
       return '';
   }
@@ -129,6 +139,18 @@ export const dashboardNavItems = [
         label: createLabels('QA Check'),
         icon: <ContainerOutlined />
       },
+    ],
+  },
+  {
+    key: '/dashboard/filesystem',
+    icon: <UserOutlined />,
+    label: createLabels('File System'),
+    children: [
+      {
+        key: '/dashboard/filesystem/folderlist',
+        label: 'Folder List',
+        icon: <UserAddOutlined />
+      }
     ],
   },
   {

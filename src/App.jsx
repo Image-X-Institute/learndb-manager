@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import { Button, ConfigProvider } from 'antd'
+import { ConfigProvider } from 'antd'
 import { TinyColor } from '@ctrl/tinycolor'
 import PrescriptionsManagement from './pages/PrescriptionsManagement'
 import FractionsManagement from './pages/FractionsManagement'
@@ -15,6 +15,7 @@ import RegisterPage from './pages/RegisterPage'
 import CentreManagement from './pages/CentreManagement'
 import TrialManagement from './pages/TrialManagement'
 import ChangePasswordPage from './pages/ChangePasswordPage'
+import FolderListPage from './pages/FolderListPage'
 
 const imageXColor = ['#f19816', '#f4B05B', '#f19816']
 
@@ -62,6 +63,7 @@ function App() {
             <Route exact path='/dashboard/users/addnew' element={<AddNewUser />} />
             <Route exact path='/dashboard/users/management' element={<UserManagement />} />
             <Route exact path='/dashboard/users/changePassword' element={<ChangePasswordPage />} />
+            <Route exact path='/dashboard/filesystem/folderlist' element={<FolderListPage />} />
           </Route>
 
         </Routes>

@@ -105,3 +105,15 @@ export const getTrialStructure = async (trial) => {
 export const changePassword = async (data) => {
   return fatchData('/api/user/changePassword', 'POST', data);
 }
+
+export const getFolderList = async () => {
+  return fatchData('/api/filesystem/getFolderList', 'GET');
+}
+
+export const moveFolder = async (data) => {
+  return fatchData('/api/filesystem/moveFolder', 'POST', data);
+}
+
+export const deleteFolder = async (data) => {
+  return fatchData('/api/filesystem/deleteFolder', 'POST', data);
+}
