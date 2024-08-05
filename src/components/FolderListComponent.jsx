@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tree, message, Button, Modal } from 'antd';
-import { getFolderList, moveFolder, deleteFolder } from '../utils/apiRequest';
+import { getFolderList, moveFolder, deleteFolder, syncCloudDriveFolder } from '../utils/apiRequest';
 
 const { DirectoryTree } = Tree;
 
@@ -59,8 +59,14 @@ const FolderListComponent = () => {
     setIsModalVisible(false);
   }
 
+  const handleSyncFolder = () => {
+    syncCloudDriveFolder()
+    message.success('Folder Syncing started, it may take a while, please come back later');
+  }
+
   return (
     <div>
+      <Button type="primary" className="mt-2" onClick={handleSyncFolder}>Sync Folder</Button>
       <DirectoryTree
         multiple
         defaultExpandAll

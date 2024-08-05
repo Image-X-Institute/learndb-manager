@@ -121,3 +121,7 @@ export const deleteFolder = async (data) => {
 export const addNewFraction = async (data) => {
   return fatchData('/api/fraction/addNewFraction', 'POST', data);
 }
+
+export const syncCloudDriveFolder = async () => {
+  return fatchData('/api/filesystem/syncCloudDrive', 'GET');
+}
