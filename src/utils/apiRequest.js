@@ -117,3 +117,7 @@ export const moveFolder = async (data) => {
 export const deleteFolder = async (data) => {
   return fatchData('/api/filesystem/deleteFolder', 'POST', data);
 }
+
+export const addNewFraction = async (data) => {
+  return fatchData('/api/fraction/addNewFraction', 'POST', data);
+}
