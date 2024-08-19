@@ -1,7 +1,7 @@
 import React from "react";
 import { Select, Form, Input, Button, message, Tooltip, Spin } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { getTrialList, getCenterList, getPatientList, getPatientInfo, updatePatientInfo } from "../utils/apiRequest";
+import { getTrialList, getCenterList, getPatientIdList, getPatientInfo, updatePatientInfo } from "../utils/apiRequest";
 
 const PrescriptionsManagement = () => {
 
@@ -39,7 +39,7 @@ const PrescriptionsManagement = () => {
 
   React.useEffect(() => {
     if (trial && center) {
-      getPatientList(trial, center).then((response) => {
+      getPatientIdList(trial, center).then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
             setPatientList(data.patients)
@@ -87,7 +87,7 @@ const PrescriptionsManagement = () => {
   const onFinish = (values) => {
     const changedData = {}
     Object.keys(values).forEach((key) => {
-      if (values[key]) {
+      if (values[key] !== undefined) {
         changedData[key] = values[key]
       }
     })

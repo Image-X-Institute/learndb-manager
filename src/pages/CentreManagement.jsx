@@ -1,6 +1,7 @@
 import { Card, Col, Row, Tooltip } from 'antd';
 import AddCentreForm from '../components/AddCentreForm';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import DeleteCentreTable from '../components/DeleteCentreTable';
 
 const CentreManagement = () => {
 
@@ -11,6 +12,15 @@ const CentreManagement = () => {
           <div style={{ display: 'flex'}}>
             <p className='font-bold text-lg mr-2'>Add New Centre</p>
             <Tooltip title="In this section, you could add new centre to the database">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </div>
+        )
+      case 'Centre List':
+        return (
+          <div style={{ display: 'flex'}}>
+            <p className='font-bold text-lg mr-2'>Centre List</p>
+            <Tooltip title="In this section, you could view all the centres in the database">
               <QuestionCircleOutlined />
             </Tooltip>
           </div>
@@ -27,6 +37,9 @@ const CentreManagement = () => {
       </Card>
     </Col>
     <Col span={24}>
+      <Card title={titleNode('Centre List')} bordered={false}>
+        <DeleteCentreTable />
+      </Card>
     </Col>
     </Row>
   );

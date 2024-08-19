@@ -44,7 +44,7 @@ const RegisterPage = () => {
           </h4>
           <p className="text-sm">
             This is a secure portal 
-            for Imaage X Institute clinical staff to manage the imaging database. 
+            for Image X Institute clinical staff to manage the imaging database. 
             With this portal, staff are able to edit, update, and delete the database records.
             Please sign in to access the portal.
           </p>

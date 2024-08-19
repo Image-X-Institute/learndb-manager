@@ -1,5 +1,4 @@
-import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { registerUser } from '../utils/apiRequest';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,14 +10,21 @@ const RegisterForm = () => {
     registerUser(values).then((response) => {
       if (response.status === 201) {
         response.json().then((data) => {
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('user', data.username)
-          localStorage.setItem('access_level', data.access_level)
-          localStorage.setItem('email', data.email)
-          navigate('/dashboard')
+          console.log(data);
+          if (data.token && data.username && data.access_level && data.email) {
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('user', data.username)
+            localStorage.setItem('access_level', data.access_level)
+            localStorage.setItem('email', data.email)
+            navigate('/dashboard')
+          } else {
+            message.error('User registration failed, Invitation code is incorrect!');
+          }
         })
       } else {
-        alert('User registration failed!');
+        response.json().then((data) => {
+          message.error('User registration failed. Reason: ' + data.message);
+        })
       }
     });
   }
@@ -111,7 +117,7 @@ const RegisterForm = () => {
         tooltip='The invitation code is 
                   required to register in order to protect 
                   the system from unauthorized access. 
-                  Currently, this feature is disabled. Please enter any code to register.'
+                  Please ask admin for the invitation code.'
         rules={[
           {
             required: true,

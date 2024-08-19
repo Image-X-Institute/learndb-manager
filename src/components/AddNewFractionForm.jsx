@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, Spin, Form, Select, Input, DatePicker, InputNumber, Button, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { getTrialList, getCenterList, getPatientList, addNewFraction } from "../utils/apiRequest";
+import { getTrialList, getCenterList, getPatientIdList, addNewFraction } from "../utils/apiRequest";
 
 const AddNewFractionForm = () => {
   const [form] = Form.useForm();
@@ -37,7 +37,7 @@ const AddNewFractionForm = () => {
 
   React.useEffect(() => {
     if (trial && center) {
-      getPatientList(trial, center).then((response) => {
+      getPatientIdList(trial, center).then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
             setPatientList(data.patients)

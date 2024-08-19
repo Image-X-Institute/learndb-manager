@@ -1,7 +1,7 @@
 import React from "react";
-import { Select, Collapse, Form, Input, Button, message, Tooltip, Spin, Card } from 'antd';
+import { Select, Collapse, Form, Input, Button, message, Tooltip, Spin } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { getTrialList, getCenterList, getPatientList, getFractionInfo, updateFractionInfo } from "../utils/apiRequest";
+import { getTrialList, getCenterList, getPatientIdList, getFractionInfo, updateFractionInfo } from "../utils/apiRequest";
 
 
 const FractionDetailCard = () => {
@@ -68,7 +68,7 @@ const FractionDetailCard = () => {
 
   React.useEffect(() => {
     if (trial && center) {
-      getPatientList(trial, center).then((response) => {
+      getPatientIdList(trial, center).then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
             setPatientList(data.patients)

@@ -1,10 +1,48 @@
 import React from 'react';
-import { Space, Table, Tag } from 'antd';
-import { getUserList } from '../utils/apiRequest';
+import { Button, Table, Tag } from 'antd';
+import { getUserList, deleteUser } from '../utils/apiRequest';
 
 const UserListTable = () => {
 
   const [tableData, setTableData] = React.useState([]);
+
+  const handleDelete = (email) => {
+    deleteUser({ email }).then((response) => {
+      if (response.status === 200) {
+        getUserList().then((response) => {
+          if (response.status === 200) {
+            response.json().then((data) => {
+              const processedData = data.map((item) => {
+                switch (item.access_level) {
+                  case 0:
+                    item.access_level = <Tag color="blue">Read Only</Tag>;
+                    break;
+                  case 1:
+                    item.access_level = <Tag color="green">Read and Write</Tag>;
+                    break;
+                  case 2:
+                    item.access_level = <Tag color="red">Administrator</Tag>;
+                    break;
+                  default:
+                    item.access_level = <Tag color="blue">User</Tag>;
+                }
+                return {
+                  key: item.id,
+                  token_subject: item.token_subject,
+                  subject_email: item.subject_email,
+                  issued_at: item.issued_at,
+                  access_level: item.access_level,
+                  audience: item.audience,
+                  jwt_id: item.jwt_id
+                }
+              })
+              setTableData(processedData);
+            })
+          }
+        })
+      }
+    })
+  }
 
   const tableName = [
     {
@@ -36,6 +74,16 @@ const UserListTable = () => {
       title:"Access Level",
       dataIndex:"access_level",
       key:"access_level",
+    },
+    {
+      title:"Action",
+      dataIndex:"action",
+      key:"action",
+      render: (_, record) => {
+        return (
+          <Button className="p-0" type="link" onClick={() => handleDelete(record.subject_email)}>Delete</Button>
+        )
+      }
     }
   ]
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Select, Button, message, Divider, Spin } from 'antd';
 import { getTrialList, getUpdatePrescriptionField, updatePrescriptionField, getUpdateFractionField, updateFractionField } from "../utils/apiRequest";
 
-const UpdateDatabasCard = () => {
+const UpdateDatabasCard = (rootDrivePath) => {
 
   const [trialList, setTrialList] = React.useState([])
 
@@ -44,7 +44,7 @@ const UpdateDatabasCard = () => {
       setIsWaitingForServer(true)
       switch (level) {
         case 'Prescription':
-          getUpdatePrescriptionField(trial).then((response) => {
+          getUpdatePrescriptionField(trial, rootDrivePath.rootDrivePath).then((response) => {
             if (response.status === 200) {
               response.json().then((data) => {
                 setUpdateData(data)
@@ -59,7 +59,7 @@ const UpdateDatabasCard = () => {
           })
           break;
         case 'Fraction':
-          getUpdateFractionField(trial).then((response) => {
+          getUpdateFractionField(trial, rootDrivePath.rootDrivePath).then((response) => {
             if (response.status === 200) {
               response.json().then((data) => {
                 setUpdateData(data)

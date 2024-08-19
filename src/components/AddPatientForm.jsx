@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Select, Form, Input, message, Spin } from 'antd';
+import { Button, Select, Form, Input, Spin, message } from 'antd';
 import { getTrialList, getCenterList, addOnePatient } from "../utils/apiRequest";
 
 
-const AddNewPatient = () => {
+const AddPatientForm = () => {
 
   const [form] = Form.useForm();
 
@@ -191,10 +191,6 @@ const AddNewPatient = () => {
           name="number_of_markers"
           rules={[
             {
-              required: true,
-              message: 'Please input number of markers!',
-            },
-            {
               pattern: /^[0-9]*$/,
               message: 'Please input valid number!'
             }
@@ -253,4 +249,4 @@ const AddNewPatient = () => {
   );
 }
 
-export default AddNewPatient;
+export default AddPatientForm;

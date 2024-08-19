@@ -1,7 +1,7 @@
 
 import { BACKEND_URL } from "../config/config";
 
-const fatchData = async (url, method, body=undefined) => {
+const fetchData = async (url, method, body=undefined) => {
   const requestOption = {
     method: method,
     headers: {
@@ -19,109 +19,161 @@ const fatchData = async (url, method, body=undefined) => {
 }
 
 export const getTrialList = async () => {
-  return fatchData('/api/getTrialList', 'GET');
+  return fetchData('/api/getTrialList', 'GET');
 }
 
 export const getCenterList = async () => {
-  return fatchData('/api/getCenterList', 'GET');
+  return fetchData('/api/getCenterList', 'GET');
 }
 
-export const getPatientList = async (trial, center) => {
-  return fatchData(`/api/patient/getPatientList?trialName=${trial}&siteName=${center}`, 'GET');
+export const getCenterDetailList = async () => {
+  return fetchData('/api/getCenterDetailList', 'GET');
+}
+
+export const getPatientIdList = async (trial, center) => {
+  return fetchData(`/api/patient/getPatientIdList?trialName=${trial}&siteName=${center}`, 'GET');
 }
 
 export const getPatientInfo = async (patient) => {
-  return fatchData(`/api/patient/getPatientInfo?patientId=${patient}`, 'GET');
+  return fetchData(`/api/patient/getPatientInfo?patientId=${patient}`, 'GET');
 }
 
 export const updatePatientInfo = async (patient, data) => {
-  return fatchData(`/api/prescription/updatePatientInfo?patientId=${patient}`, 'PATCH', data);
+  return fetchData(`/api/prescription/updatePatientInfo?patientId=${patient}`, 'PATCH', data);
 }
 
 export const getFractionInfo = async (patient, trial) => {
-  return fatchData(`/api/fraction/getFractionDetailByPatientId?patientId=${patient}&trialName=${trial}`, 'GET');
+  return fetchData(`/api/fraction/getFractionDetailByPatientId?patientId=${patient}&trialName=${trial}`, 'GET');
 }
 
 export const updateFractionInfo = async (data) => {
-  return fatchData('/api/fraction/updateFractionInfo', 'PATCH', data);
+  return fetchData('/api/fraction/updateFractionInfo', 'PATCH', data);
 }
 
 export const getPatientTrialStats = async () => {
-  return fatchData('/api/getPatientTrialStats', 'GET');
+  return fetchData('/api/getPatientTrialStats', 'GET');
 }
 
 export const getPrescriptionQaCheck = async (trial) => {
-  return fatchData(`/api/prescription/getMissingPrescriptionFieldCheck?trialName=${trial}`, 'GET');
+  return fetchData(`/api/prescription/getMissingPrescriptionFieldCheck?trialName=${trial}`, 'GET');
 }
 
 export const getFractionQaCheck = async (trial) => {
-  return fatchData(`/api/fraction/getMissingFractionFieldCheck?trialName=${trial}`, 'GET');
+  return fetchData(`/api/fraction/getMissingFractionFieldCheck?trialName=${trial}`, 'GET');
 }
 
 export const addOnePatient = async (data) => {
-  return fatchData('/api/patient/addOnePatient', 'POST', data);
+  return fetchData('/api/patient/addOnePatient', 'POST', data);
 }
 
-export const getUpdatePrescriptionField = async (trial) => {
-  return fatchData(`/api/prescription/getUpdatePrescriptionField?trialName=${trial}`, 'GET');
+export const getUpdatePrescriptionField = async (trial, rootDrivePath) => {
+  return fetchData(`/api/prescription/getUpdatePrescriptionField?trialName=${trial}&rootDrivePath=${rootDrivePath}`, 'GET');
 }
 
 export const updatePrescriptionField = async (data) => {
-  return fatchData('/api/prescription/updatePrescriptionField', 'PATCH', data);
+  return fetchData('/api/prescription/updatePrescriptionField', 'PATCH', data);
 }
 
-export const getUpdateFractionField = async (trial) => {
-  return fatchData(`/api/fraction/getUpdateFractionField?trialName=${trial}`, 'GET');
+export const getUpdateFractionField = async (trial, rootDrivePath) => {
+  return fetchData(`/api/fraction/getUpdateFractionField?trialName=${trial}&rootDrivePath=${rootDrivePath}`, 'GET');
 }
 
 export const updateFractionField = async (data) => {
-  return fatchData('/api/fraction/updateFractionField', 'PATCH', data);
+  return fetchData('/api/fraction/updateFractionField', 'PATCH', data);
 }
 
 export const getUserList = async () => {
-  return fatchData('/api/user/getUserList', 'GET');
+  return fetchData('/api/user/getUserList', 'GET');
 }
 
 export const registerUser = async (data) => {
-  return fatchData('/api/user/register', 'POST', data);
+  return fetchData('/api/user/register', 'POST', data);
 }
 
 export const loginUser = async (data) => {
-  return fatchData('/api/user/login', 'POST', data);
+  return fetchData('/api/user/login', 'POST', data);
 }
 
 export const addCentre = async (data) => {
-  return fatchData('/api/addCentre', 'POST', data);
+  return fetchData('/api/addCentre', 'POST', data);
 }
 
 export const addTrial = async (data) => {
-  return fatchData('/api/addTrial', 'POST', data);
+  return fetchData('/api/addTrial', 'POST', data);
 }
 
 export const getTrialStructure = async (trial) => {
-  return fatchData(`/api/getTrialStructure?trialName=${trial}`, 'GET');
+  return fetchData(`/api/getTrialStructure?trialName=${trial}`, 'GET');
 }
 
 export const changePassword = async (data) => {
-  return fatchData('/api/user/changePassword', 'POST', data);
+  return fetchData('/api/user/changePassword', 'POST', data);
 }
 
 export const getFolderList = async () => {
-  return fatchData('/api/filesystem/getFolderList', 'GET');
+  return fetchData('/api/filesystem/getFolderList', 'GET');
 }
 
 export const moveFolder = async (data) => {
-  return fatchData('/api/filesystem/moveFolder', 'POST', data);
+  return fetchData('/api/filesystem/moveFolder', 'POST', data);
 }
 
 export const deleteFolder = async (data) => {
-  return fatchData('/api/filesystem/deleteFolder', 'POST', data);
+  return fetchData('/api/filesystem/deleteFolder', 'POST', data);
 }
 
 export const addNewFraction = async (data) => {
-  return fatchData('/api/fraction/addNewFraction', 'POST', data);
+  return fetchData('/api/fraction/addNewFraction', 'POST', data);
 }
 
 export const syncCloudDriveFolder = async () => {
-  return fatchData('/api/filesystem/syncCloudDrive', 'GET');
+  return fetchData('/api/filesystem/syncCloudDrive', 'GET');
+}
+
+export const getPatientInfoTemplate = async () => {
+  return fetchData('/api/getPatientInfoTemplate', 'GET');
+}
+
+export const addBulkPatient = async (data) => {
+  return fetchData('/api/patient/addBulkPatient', 'POST', data);
+}
+
+export const getFractionInfoTemplate = async () => {
+  return fetchData('/api/getFractionInfoTemplate', 'GET');
+}
+
+export const addBulkFraction = async (data) => {
+  return fetchData('/api/fraction/addBulkFraction', 'POST', data);
+}
+
+export const deleteUser = async (data) => {
+  return fetchData('/api/user/deleteUser', 'POST', data);
+}
+
+export const getBusinessFolderList = async () => {
+  return fetchData('/api/filesystem/getBussinessFolderConfig', 'GET');
+}
+
+export const addBusinessFolder = async (data) => {
+  return fetchData('/api/filesystem/addBussinessFolderConfig', 'POST', data);
+}
+
+export const deleteBusinessFolder = async (data) => {
+  return fetchData('/api/filesystem/deleteBussinessFolderConfig', 'POST', data);
+}
+
+export const getAvailableRootDrive = async () => {
+  return fetchData('/api/filesystem/getAvailableRootDrive', 'GET');
+}
+
+export const getPatientDetailList = async (trial) => {
+  return fetchData(`/api/patient/getPatientDetailList?trialName=${trial}`, 'GET');
+}
+
+export const deleteOnePatient = async (data) => {
+  return fetchData('/api/patient/deleteOnePatient', 'POST', data);
+}
+
+export const deleteCenter = async (data) => {
+  return fetchData('/api/deleteCentre', 'DELETE', data);
 }

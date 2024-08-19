@@ -125,6 +125,11 @@ export const dashboardNavItems = [
         icon: <UserAddOutlined />
       },
       {
+        key: '/dashboard/patitents/list',
+        label: 'Patient List',
+        icon: <ContainerOutlined />
+      },
+      {
         key: '/dashboard/patitents/prescriptions',
         label: createLabels('Prescription'),
         icon: <FileTextOutlined />

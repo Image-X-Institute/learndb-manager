@@ -1,11 +1,23 @@
-import React from 'react';
-import { Button, Select, Form, Input } from 'antd';
-
+import { Button, Select, Form, Input, message } from 'antd';
+import { registerUser } from '../utils/apiRequest';
 
 const AddUserForm = () => {
 
+  const [form] = Form.useForm();
+
   const onFinish = (values) => {
-    console.log('Success:', values);
+    registerUser(values).then((response) => {
+      if (response.status === 201) {
+        response.json().then((data) => {
+          message.success('User registration successful!');
+          form.resetFields();
+        })
+      } else {
+        response.json().then((data) => {
+          message.error('User registration failed. Reason: ' + data.message);
+        })
+      }
+    })
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -14,6 +26,7 @@ const AddUserForm = () => {
   return (
     <Form
       name="registerUser"
+      form={form}
       labelCol={{
         span: 8,
       }}
@@ -46,7 +59,7 @@ const AddUserForm = () => {
 
       <Form.Item
         label="Email"
-        name="Email"
+        name="email"
         rules={[
           {
             required: true,

@@ -4,7 +4,6 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import CountUp from 'react-countup';
 import { getPatientTrialStats } from '../utils/apiRequest';
 
-
 const formatter = (value) => <CountUp end={value} separator="," />;
 
 const Dashboard = () => {

@@ -9,13 +9,14 @@ import UserManagement from './pages/UserManagement'
 import AddNewUser from './pages/AddNewUser'
 import Dashboard from './pages/Dashboard'
 import QaCheck from './pages/QaCheck'
-import AddNewPatient from './pages/AddNewPatient'
+import AddNewPatientPage from './pages/AddNewPatientPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import CentreManagement from './pages/CentreManagement'
 import TrialManagement from './pages/TrialManagement'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import FolderListPage from './pages/FolderListPage'
+import PatientListPage from './pages/PatientListPage'
 
 const imageXColor = ['#f19816', '#f4B05B', '#f19816']
 
@@ -56,7 +57,8 @@ function App() {
             <Route exact path='/dashboard' element={<Dashboard />} />
             <Route exact path='/dashboard/trial/management' element={<TrialManagement />} />
             <Route exact path='/dashboard/centre/management' element={<CentreManagement />} />
-            <Route exact path='/dashboard/patitents/addnew' element={<AddNewPatient />} />
+            <Route exact path='/dashboard/patitents/addnew' element={<AddNewPatientPage />} />
+            <Route exact path='/dashboard/patitents/list' element={<PatientListPage />} />
             <Route exact path='/dashboard/patitents/prescriptions' element={<PrescriptionsManagement />} />
             <Route exact path='/dashboard/patitents/fractions' element={<FractionsManagement />} />
             <Route exact path='/dashboard/patitents/qacheck' element={<QaCheck />} />
