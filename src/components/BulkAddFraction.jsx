@@ -8,6 +8,7 @@ const { Dragger } = Upload;
 const BulkAddFraction = () => {
   const [fileList, setFileList] = React.useState([]);
   const [isSpin, setIsSpin] = React.useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleTemplateDownload = () => {
     getFractionInfoTemplate().then((response) => {
@@ -38,12 +39,16 @@ const BulkAddFraction = () => {
         if (response.status === 200) {
           response.json().then((data) => {
             setIsSpin(false);
-            message.success(data.message);
+            if (data.failedList) {
+              message.warning("Some fractions failed to be added.");
+              return;
+            }
+            message.success('Fraction information added successfully');
           });
         } else {
           response.json().then((data) => {
             setIsSpin(false);
-            message.error(data.message);
+            message.error("Failed to add fraction information.");
           });
         }
       });
@@ -60,6 +65,7 @@ const BulkAddFraction = () => {
 
   return (
     <div className="flex justify-center align-center flex-col">
+      {contextHolder}
       <div className="text-2xl font-bold mx-auto">
         Bulk Import Fraction Information
       </div>
