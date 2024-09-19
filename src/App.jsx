@@ -57,11 +57,11 @@ function App() {
             <Route exact path='/dashboard' element={<Dashboard />} />
             <Route exact path='/dashboard/trial/management' element={<TrialManagement />} />
             <Route exact path='/dashboard/centre/management' element={<CentreManagement />} />
-            <Route exact path='/dashboard/patitents/addnew' element={<AddNewPatientPage />} />
-            <Route exact path='/dashboard/patitents/list' element={<PatientListPage />} />
-            <Route exact path='/dashboard/patitents/prescriptions' element={<PrescriptionsManagement />} />
-            <Route exact path='/dashboard/patitents/fractions' element={<FractionsManagement />} />
-            <Route exact path='/dashboard/patitents/qacheck' element={<QaCheck />} />
+            <Route exact path='/dashboard/patients/addnew' element={<AddNewPatientPage />} />
+            <Route exact path='/dashboard/patients/list' element={<PatientListPage />} />
+            <Route exact path='/dashboard/patients/prescriptions' element={<PrescriptionsManagement />} />
+            <Route exact path='/dashboard/patients/fractions' element={<FractionsManagement />} />
+            <Route exact path='/dashboard/patients/qacheck' element={<QaCheck />} />
             <Route exact path='/dashboard/users/addnew' element={<AddNewUser />} />
             <Route exact path='/dashboard/users/management' element={<UserManagement />} />
             <Route exact path='/dashboard/users/changePassword' element={<ChangePasswordPage />} />

@@ -115,32 +115,32 @@ export const dashboardNavItems = [
     ],
   },
   {
-    key: '/dashboard/patitents',
+    key: '/dashboard/patients',
     icon: <AuditOutlined />,
     label: createLabels('Patients'),
     children: [
       {
-        key: '/dashboard/patitents/addnew',
+        key: '/dashboard/patients/addnew',
         label: createLabels('New Patient'),
         icon: <UserAddOutlined />
       },
       {
-        key: '/dashboard/patitents/list',
+        key: '/dashboard/patients/list',
         label: 'Patient List',
         icon: <ContainerOutlined />
       },
       {
-        key: '/dashboard/patitents/prescriptions',
+        key: '/dashboard/patients/prescriptions',
         label: createLabels('Prescription'),
         icon: <FileTextOutlined />
       },
       {
-        key: '/dashboard/patitents/fractions',
+        key: '/dashboard/patients/fractions',
         label: createLabels('Fraction'),
         icon: <ContainerOutlined />
       },
       {
-        key: '/dashboard/patitents/qacheck',
+        key: '/dashboard/patients/qacheck',
         label: createLabels('QA Check'),
         icon: <ContainerOutlined />
       },
