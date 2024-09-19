@@ -143,10 +143,6 @@ const AddPatientForm = () => {
           name="age"
           rules={[
             {
-              required: true,
-              message: 'Please input patient age',
-            },
-            {
               pattern: /^[0-9]*$/,
               message: 'Please input valid number!'
             }

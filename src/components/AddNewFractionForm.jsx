@@ -211,6 +211,32 @@ const AddNewFractionForm = () => {
           <InputNumber decimalSeparator='.' />
         </Form.Item>
         <Form.Item
+          label="Marker Type"
+          name="markerType"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Imaging KV"
+          name="imagingKv"
+        >
+          <InputNumber decimalSeparator='.' />
+        </Form.Item>
+        <Form.Item
+          label="Imaging mA"
+          name="imagingMa"
+        >
+          <InputNumber decimalSeparator='.' />
+        </Form.Item>
+        <Form.Item
+          label="Imaging ms"
+          name="imagingMs"
+        >
+          <InputNumber decimalSeparator='.' />
+        </Form.Item>
+        
+
+        <Form.Item
         wrapperCol={{
           offset: 8,
           span: 16,
