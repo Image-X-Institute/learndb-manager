@@ -129,7 +129,7 @@ const PrescriptionsManagement = () => {
           <Select
             defaultValue=""
             style={{
-              width: 120,
+              width: 200,
             }}
             onChange={handleTrialChange}
             options={trialList.map((trial) => ({ value: trial, label: trial }))}

@@ -4,6 +4,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import FractionDetailCard from "../components/FractionDetailCard";
 import AddNewFractionForm from "../components/AddNewFractionForm";
 import BulkAddFraction from '../components/BulkAddFraction';
+import FractionListCard from '../components/FractionListCard';
 
 const FractionsManagement = () => {
 
@@ -27,6 +28,9 @@ const FractionsManagement = () => {
       </Card>
       <Card className="m-4">
         <BulkAddFraction />
+      </Card>
+      <Card className="m-4">
+        <FractionListCard />   
       </Card>
     </div>
   );

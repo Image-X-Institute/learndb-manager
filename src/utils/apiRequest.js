@@ -177,3 +177,15 @@ export const deleteOnePatient = async (data) => {
 export const deleteCenter = async (data) => {
   return fetchData('/api/deleteCentre', 'DELETE', data);
 }
+
+export const getFractionList = async (patient) => {
+  return fetchData(`/api/fraction/getFractionListByPatientId?patientId=${patient}`, 'GET');
+}
+
+export const deleteFraction = async (data) => {
+  return fetchData('/api/fraction/deleteFraction', 'DELETE', data);
+}
+
+export const deleteTrial = async (data) => {
+  return fetchData('/api/deleteTrial', 'DELETE', data);
+}

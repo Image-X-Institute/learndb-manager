@@ -219,7 +219,7 @@ const FractionDetailCard = () => {
             <Select
               defaultValue=""
               style={{
-                width: 120,
+                width: 200,
               }}
               onChange={handlePatientChange}
               options={patientList.map((patient) => ({ value: patient, label: patient }))}

@@ -1,5 +1,6 @@
 import { Card, Col, Row, Tooltip } from 'antd';
 import AddTrialForm from '../components/AddTrialForm';
+import TrialListTable from '../components/TrialListTable';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const TrialManagement = () => {
@@ -22,6 +23,19 @@ const TrialManagement = () => {
             </Tooltip>
           </div>
         )
+      case 'Trial List':
+        return (
+          <div style={{ display: 'flex'}}>
+            <p className='font-bold text-lg mr-2'>Trial List</p>
+            <Tooltip 
+              title="In this section, you could view the list of trials that are available in the database.
+                      You could also delete a trial by clicking the 'Delete' button.
+                    "
+            >
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </div>
+        )
       default:
         return '';
     }
@@ -35,6 +49,9 @@ const TrialManagement = () => {
       </Card>
     </Col>
     <Col span={24}>
+      <Card title={titleNode('Trial List')} bordered={false}>
+        <TrialListTable />
+      </Card>
     </Col>
     </Row>
   );
