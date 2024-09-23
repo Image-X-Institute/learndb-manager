@@ -129,7 +129,7 @@ const PrescriptionsManagement = () => {
           <Select
             defaultValue=""
             style={{
-              width: 200,
+              width: 120,
             }}
             onChange={handleTrialChange}
             options={trialList.map((trial) => ({ value: trial, label: trial }))}
@@ -157,7 +157,7 @@ const PrescriptionsManagement = () => {
           <Select
             defaultValue=""
             style={{
-              width: 120,
+              width: 200,
             }}
             onChange={handlePatientChange}
             options={patientList.map((patient) => ({ value: patient, label: patient }))}
