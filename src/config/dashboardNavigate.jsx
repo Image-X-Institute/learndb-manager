@@ -1,4 +1,4 @@
-import { UserOutlined, HomeOutlined, AuditOutlined, FileTextOutlined, ContainerOutlined, UserAddOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, HomeOutlined, AuditOutlined, FileTextOutlined, ContainerOutlined, UserAddOutlined, QuestionCircleOutlined, ApiOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import logo from '../assets/logo.png';
 
@@ -78,6 +78,15 @@ const createLabels = (label) => {
         <div style={{ display: 'flex'}}>
           <p className='mr-1'>{label}</p>
           <Tooltip title="In this section, you could manage the file system of the database">
+            <QuestionCircleOutlined />
+          </Tooltip>
+        </div>
+      )
+    case 'API Doc':
+      return (
+        <div style={{ display: 'flex'}}>
+          <p className='mr-1'>{label}</p>
+          <Tooltip title="Patient, prescription, and fraction API documentation">
             <QuestionCircleOutlined />
           </Tooltip>
         </div>
@@ -179,5 +188,10 @@ export const dashboardNavItems = [
         icon: <ContainerOutlined />
       },
     ],
+  },
+  {
+    key: '/dashboard/api-doc',
+    icon: <ApiOutlined />,
+    label: createLabels('API Doc'),
   }
 ]

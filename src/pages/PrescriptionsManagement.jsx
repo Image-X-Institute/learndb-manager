@@ -1,7 +1,8 @@
 import React from "react";
-import { Select, Form, Input, Button, message, Tooltip, Spin } from 'antd';
+import { Select, Form, Input, Button, message, Tooltip, Spin, Card } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { getTrialList, getCenterList, getPatientIdList, getPatientInfo, updatePatientInfo } from "../utils/apiRequest";
+import BulkModifyPrescriptionInformation from "../components/BulkModifyPrescriptionInformation";
 
 const PrescriptionsManagement = () => {
 
@@ -201,6 +202,9 @@ const PrescriptionsManagement = () => {
           </Form.Item>
         </Form>
       </div>
+      <Card className="m-4">
+        <BulkModifyPrescriptionInformation />
+      </Card>
     </div>
   );
 }

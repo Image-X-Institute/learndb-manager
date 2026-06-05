@@ -17,6 +17,7 @@ import TrialManagement from './pages/TrialManagement'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import FolderListPage from './pages/FolderListPage'
 import PatientListPage from './pages/PatientListPage'
+import ApiDocPage from './pages/ApiDocPage'
 
 const imageXColor = ['#f19816', '#f4B05B', '#f19816']
 
@@ -55,6 +56,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route exact path="/dashboard" element={<Home />} >
             <Route exact path='/dashboard' element={<Dashboard />} />
+            <Route exact path='/dashboard/api-doc' element={<ApiDocPage />} />
             <Route exact path='/dashboard/trial/management' element={<TrialManagement />} />
             <Route exact path='/dashboard/centre/management' element={<CentreManagement />} />
             <Route exact path='/dashboard/patients/addnew' element={<AddNewPatientPage />} />

@@ -17,3 +17,22 @@ html, body, #root{
   height: 100%;
   width: 100%;
 }
+
+/* Trial folder config: wrap long folder paths in table */
+.existing-folders-table .ant-table-cell {
+  white-space: normal;
+  word-break: break-all;
+  vertical-align: top;
+}
+
+/* Folder list page: show full path in tree nodes */
+.folder-list-tree .ant-tree-node-content-wrapper {
+  min-width: 0;
+  flex: 1;
+}
+
+.folder-list-tree .ant-tree-title {
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.4;
+}

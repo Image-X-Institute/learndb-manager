@@ -65,13 +65,15 @@ const FolderListComponent = () => {
   }
 
   return (
-    <div>
+    <div className="min-w-0">
       <Button type="primary" className="mt-2" onClick={handleSyncFolder}>Sync Folder</Button>
       <DirectoryTree
         multiple
         defaultExpandAll
         onSelect={onSelect}
         treeData={treeData}
+        className="folder-list-tree mt-2"
+        style={{ width: '100%' }}
       />
       <div className="text-center mt-2">
         <Button type="primary" className="mt-2 mr-2" onClick={handleAddFolderClick}>Add Folder to RDS</Button>

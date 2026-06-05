@@ -58,6 +58,21 @@ export const getPrescriptionQaCheck = async (trial) => {
   return fetchData(`/api/prescription/getMissingPrescriptionFieldCheck?trialName=${trial}`, 'GET');
 }
 
+export const exportPrescriptionCsv = async ({ trialName, siteName, patientId }) => {
+  const params = new URLSearchParams({ trialName });
+  if (siteName) {
+    params.append('siteName', siteName);
+  }
+  if (patientId) {
+    params.append('patientId', patientId);
+  }
+  return fetchData(`/api/prescription/exportPrescriptionCsv?${params.toString()}`, 'GET');
+}
+
+export const syncPrescriptionCsv = async (data) => {
+  return fetchData('/api/prescription/syncPrescriptionCsv', 'POST', data);
+}
+
 export const getFractionQaCheck = async (trial) => {
   return fetchData(`/api/fraction/getMissingFractionFieldCheck?trialName=${trial}`, 'GET');
 }
@@ -144,6 +159,21 @@ export const getFractionInfoTemplate = async () => {
 
 export const addBulkFraction = async (data) => {
   return fetchData('/api/fraction/addBulkFraction', 'POST', data);
+}
+
+export const syncFractionCsv = async (data) => {
+  return fetchData('/api/fraction/syncFractionCsv', 'POST', data);
+}
+
+export const exportFractionCsv = async ({ trialName, siteName, patientId }) => {
+  const params = new URLSearchParams({ trialName });
+  if (siteName) {
+    params.append('siteName', siteName);
+  }
+  if (patientId) {
+    params.append('patientId', patientId);
+  }
+  return fetchData(`/api/fraction/exportFractionCsv?${params.toString()}`, 'GET');
 }
 
 export const deleteUser = async (data) => {
