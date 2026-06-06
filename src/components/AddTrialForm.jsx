@@ -27,7 +27,8 @@ const AddTrialForm = () => {
       const data = {
         trialDetails: {
           trialName: values.trialName,
-          trialFullName: values.trialFullName
+          trialFullName: values.trialFullName,
+          rdsPath: values.rdsPath || null
         },
         "fileStructure": filedata
       }
@@ -131,6 +132,14 @@ const AddTrialForm = () => {
         name="trialFullName"
       >
         <Input placeholder="Liver Adaptive Radiotherapy utilising KIM" />
+      </Form.Item>
+
+      <Form.Item
+        label="RDS Path"
+        name="rdsPath"
+        tooltip="Optional root path for this trial in RDS. Example: /PRJ-RPL/2RESEARCH/1_ClinicalData/LEARN"
+      >
+        <Input placeholder="/PRJ-RPL/2RESEARCH/1_ClinicalData/LEARN" />
       </Form.Item>
 
       <Form.Item

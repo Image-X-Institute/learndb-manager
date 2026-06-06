@@ -1,6 +1,7 @@
 import { Card, Col, Row, Tooltip } from 'antd';
 import AddTrialForm from '../components/AddTrialForm';
 import TrialListTable from '../components/TrialListTable';
+import TrialStructureEditor from '../components/TrialStructureEditor';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const TrialManagement = () => {
@@ -36,6 +37,17 @@ const TrialManagement = () => {
             </Tooltip>
           </div>
         )
+      case 'Structure Editor':
+        return (
+          <div style={{ display: 'flex'}}>
+            <p className='font-bold text-lg mr-2'>Trial Structure Editor</p>
+            <Tooltip 
+              title="Select an existing trial, visually add or edit prescription/fraction fields, and save the updated trial_structure back to the database."
+            >
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </div>
+        )
       default:
         return '';
     }
@@ -46,6 +58,11 @@ const TrialManagement = () => {
     <Col span={24}>
       <Card title={titleNode('title')} bordered={false}>
         <AddTrialForm />
+      </Card>
+    </Col>
+    <Col span={24}>
+      <Card title={titleNode('Structure Editor')} bordered={false}>
+        <TrialStructureEditor />
       </Card>
     </Col>
     <Col span={24}>

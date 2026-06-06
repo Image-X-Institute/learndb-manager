@@ -48,7 +48,10 @@ const UpdateDatabasCard = (rootDrivePath) => {
             if (response.status === 200) {
               response.json().then((data) => {
                 setUpdateData(data)
-                setIsDisabled(false)
+                setIsDisabled(data.length === 0)
+                if (data.length === 0) {
+                  message.info('No updates found')
+                }
               })
             } else {
               response.json().then((data) => {
@@ -63,7 +66,10 @@ const UpdateDatabasCard = (rootDrivePath) => {
             if (response.status === 200) {
               response.json().then((data) => {
                 setUpdateData(data)
-                setIsDisabled(false)
+                setIsDisabled(data.length === 0)
+                if (data.length === 0) {
+                  message.info('No updates found')
+                }
               })
             } else {
               response.json().then((data) => {

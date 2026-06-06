@@ -30,6 +30,7 @@ const TrialListTable = () => {
                     key: trial[0],
                     trialName: trial[0],
                     trialFullName: trial[1],
+                    rdsPath: trial[2],
                   }
                 })
                 setTrialList(tableList);
@@ -60,6 +61,12 @@ const TrialListTable = () => {
       key: 'trialDescription',
     },
     {
+      title: 'RDS Path',
+      dataIndex: 'rdsPath',
+      key: 'rdsPath',
+      render: (value) => value || '-',
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (trial) => (
@@ -80,6 +87,7 @@ const TrialListTable = () => {
               key: trial[0],
               trialName: trial[0],
               trialFullName: trial[1],
+              rdsPath: trial[2],
             }
           })
           setTrialList(tableList);

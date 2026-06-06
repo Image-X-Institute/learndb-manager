@@ -1,7 +1,22 @@
 import React from "react";
-import { Select, Collapse, Form, Input, Button, message, Tooltip, Spin } from 'antd';
+import { Select, Collapse, Form, Input, Button, message, Tooltip, Spin, Row, Col, Typography } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { getTrialList, getCenterList, getPatientIdList, getFractionInfo, updateFractionInfo } from "../utils/apiRequest";
+
+const { Text } = Typography;
+
+const normaliseFormValue = (value) => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+  return value;
+};
+
+const getFractionFieldLabel = (key) => (
+  <div className="fraction-field-label">
+    <Text code>{key}</Text>
+  </div>
+);
 
 
 const FractionDetailCard = () => {
@@ -24,8 +39,11 @@ const FractionDetailCard = () => {
   const onFormFinish = (formName, info) => {
     const changedFields = {}
     const values = info.values
+    const originalFields = fractionData[fraction]?.find((item) => item.fraction_name === formName) || {}
     Object.keys(info.values).forEach((key) => {
-      if (values[key] !== undefined) {
+      const originalValue = normaliseFormValue(originalFields[key])
+      const nextValue = normaliseFormValue(values[key])
+      if (values[key] !== undefined && nextValue !== originalValue) {
         changedFields[key] = values[key]
       }
     })
@@ -36,6 +54,13 @@ const FractionDetailCard = () => {
         if (response.status === 200) {
           response.json().then((data) => {
             message.success(data.message)
+            getFractionInfo(patient, trial).then((refreshResponse) => {
+              if (refreshResponse.status === 200) {
+                refreshResponse.json().then((refreshData) => {
+                  setFractionData(refreshData)
+                })
+              }
+            })
           })
         } else {
           response.json().then((data) => {
@@ -97,45 +122,37 @@ const FractionDetailCard = () => {
         return {
           key: fractionItem.fraction_name,
           label: fractionItem.fraction_name,
-          children: <Form 
-                      size="small"
-                      style={{
-                        maxHeight: 400,
-                        overflow: 'scroll',
-                      }}
-                      name={fractionItem.fraction_name}
-                    >
-            {
-              Object.keys(fractionItem).map((key) => {
-                if (key == 'fraction_name' || key == 'fraction_number') {
-                  return (
-                    <Form.Item
-                      label={key}
-                      name={key}
-                      key={key}
-                    >
-                      <Input defaultValue={fractionItem[key]} disabled />
-                    </Form.Item>
-                  )
+          children: (
+            <Form
+              size="small"
+              layout="vertical"
+              className="fraction-detail-form"
+              name={fractionItem.fraction_name}
+              initialValues={Object.fromEntries(
+                Object.entries(fractionItem).map(([key, value]) => [key, normaliseFormValue(value)])
+              )}
+            >
+              <Row gutter={[16, 8]}>
+                {
+                  Object.keys(fractionItem).map((key) => (
+                    <Col xs={24} lg={12} key={key}>
+                      <Form.Item
+                        label={getFractionFieldLabel(key)}
+                        name={key}
+                      >
+                        <Input disabled={key === 'fraction_name' || key === 'fraction_number'} />
+                      </Form.Item>
+                    </Col>
+                  ))
                 }
-                return (
-                  <Form.Item
-                    label={key}
-                    name={key}
-                    key={key}
-                  >
-                    <Input defaultValue={fractionItem[key]} />
-                  </Form.Item>
-                )
-              })
-            }
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" size="large">
-              Submit
-            </Button>
-          </Form.Item>
-
-          </Form>
+              </Row>
+              <Form.Item className="mb-0">
+                <Button type="primary" htmlType="submit" size="large">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          )
         }
       })
       setFractionItemList(fractionItemFields)
@@ -151,18 +168,24 @@ const FractionDetailCard = () => {
     setPatient('')
     setFraction('')
     setPatientList([])
+    setFractionData({})
+    setFractionItemList([])
   };
 
   const handleCenterChange = (value) => {
     setCenter(value)
     setPatient('')
     setFraction('')
+    setFractionData({})
+    setFractionItemList([])
 
   };
 
   const handlePatientChange = (value) => {
     setPatient(value)
     setFraction('')
+    setFractionData({})
+    setFractionItemList([])
   };
 
   const handleFractionChange = (value) => {
