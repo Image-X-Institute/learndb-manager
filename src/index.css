@@ -11,6 +11,21 @@ body {
 html, body, #root{
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
+}
+
+.dashboard-main-layout {
+  margin-left: 230px;
+  width: calc(100% - 230px);
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.dashboard-main-content {
+  margin: 24px 32px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-width: 0;
 }
 
 .ant-layout {
@@ -37,11 +52,61 @@ html, body, #root{
   line-height: 1.4;
 }
 
-/* Trial structure editor: keep long path templates readable */
+/* Trial structure editor: column widths tuned for field metadata + long paths */
+.trial-structure-editor-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.trial-structure-editor-table .ant-table {
+  min-width: 1500px;
+}
+
 .trial-structure-editor-table .ant-table-cell {
   white-space: normal;
   word-break: break-word;
   vertical-align: top;
+}
+
+.trial-structure-editor-table .trial-structure-key-cell,
+.trial-structure-editor-table .trial-structure-display-cell {
+  word-break: break-word;
+}
+
+.trial-structure-editor-table .trial-structure-key-text {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;
+}
+
+.trial-structure-editor-table .trial-structure-path-cell {
+  word-break: break-all;
+  line-height: 1.45;
+}
+
+.trial-structure-editor-table .trial-structure-path-text {
+  display: block;
+  max-width: 100%;
+  word-break: break-all;
+}
+
+.trial-structure-editor-table .trial-structure-allowed-cell {
+  word-break: break-all;
+}
+
+.trial-structure-editor-table .trial-structure-action-cell {
+  white-space: nowrap;
+  padding-inline: 8px !important;
+}
+
+.trial-structure-editor-table .trial-structure-action-buttons {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.trial-structure-editor-table .trial-structure-action-buttons .ant-btn {
+  padding-inline: 4px;
 }
 
 .prescription-field-label {

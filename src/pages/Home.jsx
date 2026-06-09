@@ -39,7 +39,7 @@ const Home = () => {
           style={{ height: '100%'}}
         />
       </Sider>
-      <Layout style={{ marginLeft: 230 }}>
+      <Layout className="dashboard-main-layout">
         <Header style={{
             height: 54,
             paddingInline: 48,
@@ -57,12 +57,7 @@ const Home = () => {
             </div>
             <Button onClick={handleLogout}>Logout</Button>
         </Header>
-        <Content
-          style={{
-            margin: '24px 32px 0',
-            overflow: 'auto',
-          }}
-        >
+        <Content className="dashboard-main-content">
           <Outlet />
         </Content>
         <Footer

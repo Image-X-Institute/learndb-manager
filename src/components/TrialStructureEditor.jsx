@@ -17,7 +17,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { DownloadOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { DownloadOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import { addTrial, getTrialList, getTrialStructure } from '../utils/apiRequest';
 
 const { Link, Text } = Typography;
@@ -453,33 +453,38 @@ const TrialStructureEditor = () => {
       dataIndex: 'fieldKey',
       key: 'fieldKey',
       fixed: 'left',
-      width: 220,
-      render: (value) => <Text code>{value}</Text>,
+      width: 180,
+      className: 'trial-structure-key-cell',
+      render: (value) => <Text code className="trial-structure-key-text">{value}</Text>,
     },
     {
       title: 'Display Name',
       dataIndex: 'display_name',
       key: 'display_name',
-      width: 220,
+      width: 190,
+      className: 'trial-structure-display-cell',
+      ellipsis: { showTitle: true },
     },
     {
       title: 'Field Type',
       dataIndex: 'field_type',
       key: 'field_type',
-      width: 120,
+      width: 90,
+      align: 'center',
     },
     {
       title: 'Storage',
       dataIndex: 'storage',
       key: 'storage',
-      width: 110,
+      width: 88,
+      align: 'center',
       render: (value) => <Tag color={value === 'jsonb' ? 'green' : 'blue'}>{value || 'column'}</Tag>,
     },
     {
       title: 'Storage Table',
       dataIndex: 'storage_table',
       key: 'storage_table',
-      width: 140,
+      width: 120,
       render: (value, record) => {
         if (record.storage !== 'jsonb') {
           return '-';
@@ -494,13 +499,23 @@ const TrialStructureEditor = () => {
       title: 'Path',
       dataIndex: 'path',
       key: 'path',
-      render: (value) => value || '-',
+      width: 460,
+      className: 'trial-structure-path-cell',
+      render: (value) => (
+        value ? (
+          <Tooltip title={value} placement="topLeft">
+            <Text className="trial-structure-path-text">{value}</Text>
+          </Tooltip>
+        ) : '-'
+      ),
     },
     {
       title: 'Allowed',
       dataIndex: 'allowed',
       key: 'allowed',
-      width: 180,
+      width: 150,
+      className: 'trial-structure-allowed-cell',
+      ellipsis: { showTitle: true },
       render: (value) => formatAllowed(value) || '-',
     },
     {
@@ -508,16 +523,18 @@ const TrialStructureEditor = () => {
       key: 'action',
       fixed: 'right',
       width: 150,
+      align: 'center',
+      className: 'trial-structure-action-cell',
       render: (_, record) => (
-        <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEditFieldModal(record)}>
+        <Space size={4} className="trial-structure-action-buttons">
+          <Button type="link" size="small" onClick={() => openEditFieldModal(record)}>
             Edit
           </Button>
           <Popconfirm
             title={`Delete ${record.fieldKey}?`}
             onConfirm={() => deleteField(record.level, record.fieldKey)}
           >
-            <Button type="link" danger>
+            <Button type="link" size="small" danger>
               Delete
             </Button>
           </Popconfirm>
@@ -589,13 +606,15 @@ const TrialStructureEditor = () => {
           </Tooltip>
         </Space>
 
+        <div className="trial-structure-editor-table-wrap">
         <Table
           className="trial-structure-editor-table"
           columns={columns}
           dataSource={fieldRows(activeLevel)}
           loading={loading}
           pagination={{ pageSize: 8 }}
-          scroll={{ x: 1200 }}
+          tableLayout="fixed"
+          scroll={{ x: 1500 }}
           title={() => (
             <Select
               value={activeLevel}
@@ -606,6 +625,7 @@ const TrialStructureEditor = () => {
             />
           )}
         />
+        </div>
 
         <Collapse
           className="mt-3"
