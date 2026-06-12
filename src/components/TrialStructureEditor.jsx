@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Button,
   Card,
+  Checkbox,
   Col,
   Collapse,
   Form,
@@ -136,6 +137,92 @@ const IMAGE_COLUMN_FIELDS = [
 
 const PATH_TEMPLATE_HELP_URL = 'https://docs.python.org/3/library/string.html#format-string-syntax';
 
+const PATH_TEMPLATE_VARIABLES = [
+  { token: '{clinical_trial}', example: 'LEARN', levels: ['prescription', 'fraction'] },
+  { token: '{test_centre}', example: 'CMN', levels: ['prescription', 'fraction'] },
+  { token: '{centre_patient_no}', example: '05', levels: ['prescription', 'fraction'] },
+  { token: '{patient_trial_id}', example: '11443-10', levels: ['prescription', 'fraction'] },
+  { token: '{tumour_site}', example: 'lung', levels: ['prescription', 'fraction'] },
+  { token: '{fraction_name}', example: 'Fx1D1', levels: ['fraction'] },
+  { token: '{fraction_number}', example: '1', levels: ['fraction'] },
+  { token: '{cbct_branch}', example: 'CBCT1', levels: ['fraction'], multipleCbctOnly: true },
+];
+
+const getPathTemplateVariables = (level, multipleCbctBranches) => (
+  PATH_TEMPLATE_VARIABLES.filter((variable) => (
+    (!level || variable.levels.includes(level))
+    && (!variable.multipleCbctOnly || multipleCbctBranches)
+  ))
+);
+
+const buildPathVariableSegment = (token) => `/${token}/`;
+
+// Internal Form.Item input component; Ant Design injects value/onChange at runtime.
+// eslint-disable-next-line react/prop-types
+const PathTemplateInput = ({ value, onChange, level, multipleCbctBranches }) => {
+  const textAreaRef = React.useRef(null);
+
+  const insertVariable = (token) => {
+    const currentValue = value || '';
+    const textarea = textAreaRef.current?.resizableTextArea?.textArea;
+    let segment = buildPathVariableSegment(token);
+
+    const start = textarea?.selectionStart ?? currentValue.length;
+    const end = textarea?.selectionEnd ?? currentValue.length;
+    const before = currentValue.slice(0, start);
+    const after = currentValue.slice(end);
+
+    if (before.endsWith('/') && segment.startsWith('/')) {
+      segment = segment.slice(1);
+    }
+
+    const nextValue = `${before}${segment}${after}`;
+    onChange?.(nextValue);
+
+    if (!textarea) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      textarea.focus();
+      const cursorPosition = start + segment.length;
+      textarea.setSelectionRange(cursorPosition, cursorPosition);
+    });
+  };
+
+  return (
+    <Space direction="vertical" size={8} style={{ width: '100%' }}>
+      <div className="path-template-variable-panel">
+        <Text type="secondary" className="path-template-variable-hint">
+          Click a variable to insert it into the path below:
+        </Text>
+        <Space size={[12, 8]} wrap className="path-template-variable-list">
+          {getPathTemplateVariables(level, multipleCbctBranches).map((variable) => (
+            <span key={variable.token} className="path-template-variable-item">
+              <Tag
+                className="path-template-variable-tag"
+                onClick={() => insertVariable(variable.token)}
+              >
+                {buildPathVariableSegment(variable.token)}
+              </Tag>
+              <Text type="secondary" className="path-template-variable-example">
+                e.g. {variable.example}
+              </Text>
+            </span>
+          ))}
+        </Space>
+      </div>
+      <Input.TextArea
+        ref={textAreaRef}
+        value={value}
+        onChange={(event) => onChange?.(event.target.value)}
+        placeholder="/{clinical_trial}/{test_centre}/Patient Structure Sets/PAT{centre_patient_no}/"
+        autoSize={{ minRows: 2, maxRows: 5 }}
+      />
+    </Space>
+  );
+};
+
 const normaliseStructure = (structure) => ({
   prescription: structure?.prescription || {},
   fraction: structure?.fraction || {},
@@ -161,6 +248,12 @@ const formatAllowed = (value) => {
 const fieldOption = (fieldName) => ({
   label: fieldName,
   value: fieldName,
+});
+
+const createEditorSnapshot = (structure, trialFullName, rdsPath) => ({
+  structure: JSON.stringify(normaliseStructure(structure)),
+  trialFullName: trialFullName || '',
+  rdsPath: rdsPath || '',
 });
 
 const downloadJson = (fileName, data) => {
@@ -189,10 +282,27 @@ const TrialStructureEditor = () => {
   const [saving, setSaving] = React.useState(false);
   const [fieldModalOpen, setFieldModalOpen] = React.useState(false);
   const [editingField, setEditingField] = React.useState(null);
+  const [savedSnapshot, setSavedSnapshot] = React.useState(null);
+
+  const currentSnapshot = React.useMemo(
+    () => createEditorSnapshot(structure, trialFullName, rdsPath),
+    [structure, trialFullName, rdsPath],
+  );
+
+  const hasUnsavedChanges = Boolean(
+    selectedTrial
+    && savedSnapshot
+    && (
+      currentSnapshot.structure !== savedSnapshot.structure
+      || currentSnapshot.trialFullName !== savedSnapshot.trialFullName
+      || currentSnapshot.rdsPath !== savedSnapshot.rdsPath
+    ),
+  );
 
   const watchedStorage = Form.useWatch('storage', fieldForm);
   const watchedLevel = Form.useWatch('level', fieldForm);
   const watchedFieldKey = Form.useWatch('fieldKey', fieldForm);
+  const watchedMultipleCbctBranches = Form.useWatch('multiple_cbct_branches', fieldForm);
 
   const getColumnFieldOptions = React.useCallback((level, currentFieldKey) => {
     const extraCurrentOption = (knownFields) => {
@@ -264,6 +374,7 @@ const TrialStructureEditor = () => {
       return;
     }
     setLoading(true);
+    setSavedSnapshot(null);
     setSelectedTrial(trialName);
     const detail = trialDetails.find((trial) => trial[0] === trialName);
     setTrialFullName(detail?.[1] || trialName);
@@ -276,9 +387,13 @@ const TrialStructureEditor = () => {
           return;
         }
         response.json().then((data) => {
-          setStructure(normaliseStructure(data.trialStructure));
-          setTrialFullName(data.trialFullName || detail?.[1] || trialName);
-          setRdsPath(data.rdsPath || detail?.[2] || '');
+          const loadedStructure = normaliseStructure(data.trialStructure);
+          const loadedTrialFullName = data.trialFullName || detail?.[1] || trialName;
+          const loadedRdsPath = data.rdsPath || detail?.[2] || '';
+          setStructure(loadedStructure);
+          setTrialFullName(loadedTrialFullName);
+          setRdsPath(loadedRdsPath);
+          setSavedSnapshot(createEditorSnapshot(loadedStructure, loadedTrialFullName, loadedRdsPath));
           message.success(`Loaded ${trialName} structure.`);
         });
       })
@@ -296,6 +411,7 @@ const TrialStructureEditor = () => {
       allowed: '',
       storage: undefined,
       storage_table: undefined,
+      multiple_cbct_branches: false,
     });
     setFieldModalOpen(true);
   };
@@ -311,6 +427,7 @@ const TrialStructureEditor = () => {
       allowed: formatAllowed(record.allowed),
       storage: record.storage || 'column',
       storage_table: record.storage_table,
+      multiple_cbct_branches: record.multiple && record.branch_variable === 'cbct_branch',
     });
     setFieldModalOpen(true);
   };
@@ -319,6 +436,7 @@ const TrialStructureEditor = () => {
     fieldForm.setFieldsValue({
       fieldKey: undefined,
       storage_table: value === 'jsonb' && watchedLevel === 'fraction' ? 'images' : undefined,
+      multiple_cbct_branches: false,
     });
   };
 
@@ -327,6 +445,7 @@ const TrialStructureEditor = () => {
     fieldForm.setFieldsValue({
       fieldKey: undefined,
       storage_table: watchedStorage === 'jsonb' && value === 'fraction' ? 'images' : undefined,
+      multiple_cbct_branches: false,
     });
   };
 
@@ -338,6 +457,17 @@ const TrialStructureEditor = () => {
       storage: 'jsonb',
       fieldKey: '',
       storage_table: watchedLevel === 'fraction' ? 'images' : undefined,
+    });
+  };
+
+  const handleMultipleCbctChange = (event) => {
+    if (!event.target.checked) {
+      return;
+    }
+    fieldForm.setFieldsValue({
+      storage: 'jsonb',
+      level: 'fraction',
+      storage_table: 'images',
     });
   };
 
@@ -372,6 +502,13 @@ const TrialStructureEditor = () => {
 
     if (level === 'fraction' && values.storage === 'jsonb' && values.storage_table) {
       fieldConfig.storage_table = values.storage_table;
+    }
+
+    if (level === 'fraction' && values.storage === 'jsonb' && values.multiple_cbct_branches) {
+      fieldConfig.multiple = true;
+      fieldConfig.branch_variable = 'cbct_branch';
+      fieldConfig.legacy_format = 'semicolon';
+      fieldConfig.storage_table = 'images';
     }
 
     const nextStructure = {
@@ -429,6 +566,7 @@ const TrialStructureEditor = () => {
         }
         response.json().then((data) => {
           message.success(data.message || 'Trial structure saved.');
+          setSavedSnapshot(createEditorSnapshot(structure, trialFullName, rdsPath));
           loadTrialList();
         });
       })
@@ -445,6 +583,8 @@ const TrialStructureEditor = () => {
     allowed: config?.allowed || [],
     storage: config?.storage || 'column',
     storage_table: config?.storage_table,
+    multiple: config?.multiple,
+    branch_variable: config?.branch_variable,
   }));
 
   const columns = [
@@ -596,12 +736,20 @@ const TrialStructureEditor = () => {
           <Button type="primary" icon={<PlusOutlined />} disabled={!selectedTrial} onClick={openAddFieldModal}>
             Add Field
           </Button>
-          <Button icon={<SaveOutlined />} loading={saving} disabled={!selectedTrial} onClick={saveStructure}>
+          <Button
+            icon={<SaveOutlined />}
+            loading={saving}
+            disabled={!selectedTrial}
+            onClick={saveStructure}
+            className={hasUnsavedChanges ? 'trial-structure-save-reminder' : undefined}
+          >
             Save Structure
           </Button>
           <Tooltip title="New JSONB fraction image/path fields should use storage_table=images. Existing column fields should remain storage=column.">
-            <Text type="secondary">
-              Edit fields below, then click Save Structure to update the database.
+            <Text type={hasUnsavedChanges ? 'danger' : 'secondary'} className={hasUnsavedChanges ? 'trial-structure-save-reminder-text' : undefined}>
+              {hasUnsavedChanges
+                ? 'Unsaved changes. Click Save Structure to update the database.'
+                : 'Edit fields below, then click Save Structure to update the database.'}
             </Text>
           </Tooltip>
         </Space>
@@ -725,6 +873,19 @@ const TrialStructureEditor = () => {
                 </Form.Item>
               </Col>
             )}
+            {watchedLevel === 'fraction' && (
+              <Col span={24}>
+                <Form.Item
+                  name="multiple_cbct_branches"
+                  valuePropName="checked"
+                  extra="Use this when one fraction contains CBCT1, CBCT2, CBCT3... branches. Checking this will store the field in images.extended_data and legacy /fractions returns all matched paths as a semicolon-separated string."
+                >
+                  <Checkbox onChange={handleMultipleCbctChange}>
+                    Multiple CBCT branches
+                  </Checkbox>
+                </Form.Item>
+              </Col>
+            )}
             <Col span={24}>
               <Form.Item
                 label={(
@@ -742,15 +903,18 @@ const TrialStructureEditor = () => {
                 name="path"
                 extra={(
                   <div>
-                    <div>Supported variables: {'{clinical_trial}'}, {'{test_centre}'}, {'{centre_patient_no}'}, {'{patient_trial_id}'}, {'{fraction_name}'}.</div>
+                    <div>Click a variable above to insert a path segment like /{'{clinical_trial}'}/. You can still type fixed folder text directly in the input below.</div>
+                    {watchedMultipleCbctBranches && (
+                      <div>For multiple CBCT branches, include /{'{cbct_branch}'}/ where CBCT1, CBCT2, CBCT3 should be discovered.</div>
+                    )}
                     <div>Text outside braces is fixed folder text. Only values inside braces are replaced by patient/trial data.</div>
-                    <div>For fraction missing-data search, the backend appends the fraction folder/name after this base path.</div>
+                    <div>For fraction missing-data search, the backend appends the fraction folder/name after this base path when needed.</div>
                   </div>
                 )}
               >
-                <Input.TextArea
-                  placeholder="/{clinical_trial}/{test_centre}/Patient Structure Sets/PAT{centre_patient_no}/"
-                  autoSize={{ minRows: 2, maxRows: 5 }}
+                <PathTemplateInput
+                  level={watchedLevel}
+                  multipleCbctBranches={watchedMultipleCbctBranches}
                 />
               </Form.Item>
             </Col>
